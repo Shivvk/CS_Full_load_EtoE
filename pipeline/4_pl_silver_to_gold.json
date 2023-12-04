@@ -1,0 +1,175 @@
+{
+	"name": "4_pl_silver_to_gold",
+	"properties": {
+		"activities": [
+			{
+				"name": "gold layer injestion",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/databricks notebook/silver to gold ingestion",
+					"baseParameters": {
+						"LoadID": {
+							"value": "@pipeline()?.TriggeredByPipelineName",
+							"type": "Expression"
+						},
+						"silver_schema": {
+							"value": "@pipeline().parameters.metadata_values.silver_schema",
+							"type": "Expression"
+						},
+						"silver_table": {
+							"value": "@pipeline().parameters.metadata_values.silver_tbl",
+							"type": "Expression"
+						},
+						"gold_schema": {
+							"value": "@pipeline().parameters.metadata_values.gold_schema",
+							"type": "Expression"
+						},
+						"gold_table": {
+							"value": "@pipeline().parameters.metadata_values.gold_tbl",
+							"type": "Expression"
+						},
+						"source": {
+							"value": "@pipeline().parameters.metadata_values.source_ref_id",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "Ls_databricks_compute",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "gold layer injection fail",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "gold layer injestion",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/databricks notebook/log_record_tbl_insert",
+					"baseParameters": {
+						"env": {
+							"value": "@pipeline().globalParameters.env",
+							"type": "Expression"
+						},
+						"loadId": {
+							"value": "@pipeline()?.TriggeredByPipelineRunId",
+							"type": "Expression"
+						},
+						"logMessage": {
+							"value": "@concat('Error: ', ' failed to load records from ', pipeline().parameters.metadata_values.silver_tbl, ' to gold layer table ', pipeline().parameters.metadata_values.gold_tbl)",
+							"type": "Expression"
+						},
+						"logTimeStamp": {
+							"value": "@formatDateTime(convertFromUtc(utcNow(), 'India Standard Time'), 'yyyy-MM-dd HH:mm:ss')",
+							"type": "Expression"
+						},
+						"pipeLineName": {
+							"value": "@pipeline().Pipeline",
+							"type": "Expression"
+						},
+						"status": {
+							"value": "@activity('gold layer injestion').output.Error.message",
+							"type": "Expression"
+						},
+						"triggerType": {
+							"value": "@pipeline().TriggerType",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "Ls_databricks_compute",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "gold layer injection sucess",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "gold layer injestion",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/databricks notebook/log_record_tbl_insert",
+					"baseParameters": {
+						"env": {
+							"value": "@pipeline().globalParameters.env",
+							"type": "Expression"
+						},
+						"loadId": {
+							"value": "@pipeline()?.TriggeredByPipelineRunId",
+							"type": "Expression"
+						},
+						"logMessage": {
+							"value": "@concat('Insertion ', activity('gold layer injestion').output.runOutput ,  ' records in gold layer ', pipeline().parameters.metadata_values.gold_tbl)",
+							"type": "Expression"
+						},
+						"logTimeStamp": {
+							"value": "@formatDateTime(convertFromUtc(utcNow(), 'India Standard Time'), 'yyyy-MM-dd HH:mm:ss')",
+							"type": "Expression"
+						},
+						"pipeLineName": {
+							"value": "@pipeline().Pipeline",
+							"type": "Expression"
+						},
+						"status": {
+							"value": "sucess",
+							"type": "Expression"
+						},
+						"triggerType": {
+							"value": "@pipeline().TriggerType",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "Ls_databricks_compute",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"metadata_values": {
+				"type": "object"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-12-04T11:43:19Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

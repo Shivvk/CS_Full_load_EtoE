@@ -1,0 +1,17 @@
+{
+	"name": "Ls_databricks_compute",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureDatabricks",
+		"typeProperties": {
+			"domain": "https://adb-7078543837651656.16.azuredatabricks.net",
+			"existingClusterId": "1124-140529-eix8lmkh",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI4NjE2MTc1OS0zMDcxLTRhN2EtODYxNS1kZjYwZTU1YjNhOWYiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "FMGCIR",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

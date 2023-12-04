@@ -1,0 +1,17 @@
+{
+	"name": "CS-ADF-DEV-SVK",
+	"properties": {
+		"globalParameters": {
+			"env": {
+				"type": "string",
+				"value": "dev"
+			}
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "c58c2011-2c32-44c9-8d60-089a5191aab0",
+		"tenantId": "bf93bb5e-ecf0-4e3d-be0e-79b5cc527a48"
+	}
+}

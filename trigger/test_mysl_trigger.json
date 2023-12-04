@@ -1,0 +1,29 @@
+{
+	"name": "test_mysl_trigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "1a_pl_source_mysql_ingestion",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"job_id": "102",
+					"metadata_database": "metadata_schema",
+					"env": "dev"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 5,
+				"startTime": "2023-12-04T11:41:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}

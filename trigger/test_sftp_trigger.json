@@ -1,0 +1,28 @@
+{
+	"name": "test_sftp_trigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "1b_pl_source_sftp_ingestion",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"job_id": "101",
+					"metadata_database": "metadata_schema"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 5,
+				"startTime": "2023-12-04T11:49:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}

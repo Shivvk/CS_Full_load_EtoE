@@ -1,0 +1,15 @@
+{
+	"name": "ls_adls",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://adlscsfmgcdev.dfs.core.windows.net/"
+		},
+		"connectVia": {
+			"referenceName": "FMGCIR",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

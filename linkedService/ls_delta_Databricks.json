@@ -1,0 +1,17 @@
+{
+	"name": "ls_delta_Databricks",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureDatabricksDeltaLake",
+		"typeProperties": {
+			"domain": "https://adb-7078543837651656.16.azuredatabricks.net",
+			"clusterId": "1124-140529-eix8lmkh",
+			"workspaceResourceId": "/subscriptions/c16facec-26d0-4d53-89de-f460cfd5a370/resourceGroups/CS-Dev-east-US/providers/Microsoft.Databricks/workspaces/cs-databricks-dev"
+		},
+		"connectVia": {
+			"referenceName": "FMGCIR",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
