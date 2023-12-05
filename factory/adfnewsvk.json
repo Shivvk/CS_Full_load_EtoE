@@ -1,0 +1,9 @@
+{
+	"name": "adfnewsvk",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "d67b1505-8770-4452-815e-a527b5fce388",
+		"tenantId": "bf93bb5e-ecf0-4e3d-be0e-79b5cc527a48"
+	}
+}
